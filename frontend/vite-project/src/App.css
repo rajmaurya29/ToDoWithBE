@@ -1,0 +1,34 @@
+.maincontainer{
+  width: 500px ;
+  margin-left: 30%;
+  margin-top: 4%;
+}
+.Navcolor{
+  color: antiquewhite;
+  font-size: 18px;
+  margin: 8px;
+  text-decoration: none;
+}
+.overalldatadiv{
+  width: 650px;
+  margin-left: 28%;
+  margin-top: 10%;
+  /* position: relative; */
+}
+.eachDiv{
+  position: relative;
+}
+.buttonDivEdit{
+  position: absolute;
+  right: 80px;
+  bottom: 4px;
+}
+.buttonDivDel{
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+}
+.detailMainDiv{
+  margin-top: 20px;
+  margin-left: 20px;
+}
