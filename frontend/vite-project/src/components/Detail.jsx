@@ -12,7 +12,9 @@ function Detail(){
     const [complete,setComplete]=useState(false)
     const eachDetail=async()=>{
         try{
-            const response=await axios.get(`http://127.0.0.1:8000/data/task-detail/${id}/`);
+            const response=await axios.get(`http://127.0.0.1:8000/data/task-detail/${id}/`,{
+                withCredentials:true
+            });
             console.log("response",response.data);
             setDataDetail(response.data);
             setComplete(response.data.completed)
@@ -38,7 +40,9 @@ function Detail(){
     }
     const handleSubmit=async()=>{
         try{
-        const response=await axios.put(`http://127.0.0.1:8000/data/task-update/${id}/`,DataDetail);
+        const response=await axios.put(`http://127.0.0.1:8000/data/task-update/${id}/`,DataDetail,{
+            withCredentials:true
+        });
         navigate("/data");
         }
         catch(error){

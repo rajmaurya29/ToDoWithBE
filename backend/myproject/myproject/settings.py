@@ -135,7 +135,11 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'authentication.authentication.CookieJWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
 
@@ -152,11 +156,16 @@ CORS_ALLOW_METHODS = [
     "OPTIONS",
 ]
 
-REST_FRAMEWORK = {
-   
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-    
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-    
-}
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+]
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'x-csrftoken',
+]
+CSRF_COOKIE_SECURE = False  
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = False  
+CSRF_COOKIE_SAMESITE = 'None'

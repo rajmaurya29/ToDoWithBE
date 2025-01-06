@@ -23,34 +23,56 @@ class RegisterView(APIView):
             },status=status.HTTP_201_CREATED)
         
         return Response("error")
-        
+
 class LoginView(APIView):
-    permissions_classes=[]
+    permission_classes=[]
     def post(self,request,format=None):
         username=request.data['username']
         password=request.data['password']
         user=User.objects.filter(username=username).first()
         if user and user.check_password(password):
             refresh=RefreshToken.for_user(user)
-            response=Response({"message":"Login Successfull"},status=status.HTTP_200_OK)
+            accessToken=str(refresh.access_token)
+            response=Response({"message":"Login Successfull","token":accessToken,},status=status.HTTP_200_OK)
             response.set_cookie(
                 key="access_token",
-                value=str(refresh.access_token),
+                value=accessToken,
                 httponly=True,
                 secure=True,
-                samesite="Lax"
+                samesite="None",
+                path='/'
             )
             response.set_cookie(
                 key="refresh_token",
                 value=str(refresh),
                 httponly=True,
                 secure=True,
-                samesite="Lax"
+                samesite="None",
+                path='/'
             )
             return response
-        return Response({"message":"invalid"})
+        return Response({"message":"invalid"},status=status.HTTP_400_BAD_REQUEST)
 
-class ProfileView(APIView):
-    permissions_classes=[IsAuthenticated]
-    def get(self,request,format=None):
-        return Response("Authenticated")
+class LogoutView(APIView):
+    permission_classes=[IsAuthenticated]
+    def post(self,request,format=None):
+        response=Response("deleted",status=status.HTTP_200_OK)
+        response.set_cookie(
+                key="access_token",
+                value="",
+                httponly=True,
+                max_age=0,
+                secure=True,
+                samesite="None",
+                path='/'
+            )
+        response.set_cookie(
+                key="refresh_token",
+                value="",
+                max_age=0,
+                httponly=True,
+                secure=True,
+                samesite="None",
+                path='/'
+            )
+        return response
